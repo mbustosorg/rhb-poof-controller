@@ -16,13 +16,15 @@ OSC
 
 | Direction | Address | Value | Producer / consumers |
 | --- | --- | --- | --- |
-| out | `/poof` | `1.0` pressed, `0.0` released | This controller, to every address in `CLIENTS` |
+| out | `/poof` | `1.0` pressed, `0.0` released | This controller, to every address in `CLIENTS`, including the body display |
 | in | `/pressure` | psi, float | rhb-sensor-monitor |
 | in | `/temperature` | degrees F, float | rhb-water-heater |
 | in | `/water_heater` | `1.0` heating, `0.0` off | rhb-water-heater |
 
-Everything is on UDP port 8888.  Addresses are matched exactly, so
-`/pressure_fine` and `/water_pressure` are ignored.
+Everything is on UDP port 8888, except the body display (rhb-body-display on
+rhbbody), which listens on `192.168.1.3:10002` and shows a POOF while the
+button is held.  Addresses are matched exactly, so `/pressure_fine` and
+`/water_pressure` are ignored.
 
 - The release is sent three times, 50 ms apart, so one lost datagram cannot
   leave a listener thinking the button is still held.  Treat `/poof` as a
@@ -49,13 +51,15 @@ The Pico's GPIO is 3.3V only, so the 12V button must not touch it.  Isolate
 it with an optocoupler such as a PC817:
 
     12V --- button --- 2.2k --- PC817 anode (1)
-                                PC817 cathode (2) --- vehicle ground
+                                PC817 cathode (2) --- 12V supply ground (-)
     GP15 ----------------------- PC817 collector (4)
     Pico GND ------------------- PC817 emitter (3)
 
-About 5 mA through the LED at 12V and 6 mA at 14.4V with the engine
-running.  A 1N4148 across the opto LED (reversed) protects it from a reverse
-spike on the 12V line.  Each HT16K33 runs from the Pico's 3V3.
+The 12V comes from a mains supply on the generator's 120V system.  That is
+about 5 mA through the LED at 12V, still fine if the supply is trimmed up to
+13V.  A 1N4148 across the opto LED (reversed) protects it from a reverse spike
+on the 12V line, such as when the generator surges.  Each HT16K33 runs from
+the Pico's 3V3.
 
 The readouts use digits 0 and 1 of each HT16K33 (`TENS_DIGIT`, `ONES_DIGIT`
 in `rhb_pico_utils.py`); on a 4-digit backpack that is the left pair.
@@ -69,7 +73,7 @@ Configuration
 | --- | --- | --- |
 | `WIFI_SSID`, `WIFI_PASSWORD` | | The rig WiFi |
 | `IP` | | Static address.  The rig has no DHCP |
-| `CLIENTS` | every rig listener | Who hears `/poof` |
+| `CLIENTS` | every rig listener | Who hears `/poof`.  `host` for port 8888, `host:port` otherwise |
 | `POOF_PIN` | `15` | Button input GPIO |
 | `DEBOUNCE_MS` | `20` | How long an edge must hold |
 | `PRESSURE_DISPLAY`, `TEMPERATURE_DISPLAY` | `112` (0x70), `113` (0x71) | I2C addresses, in decimal since JSON has no hex |

@@ -23,10 +23,12 @@ import rhb_pico_utils
 
 OSC_PORT = 8888
 # Every listener on the rig, as rhb-sensor-monitor broadcasts to, plus the
-# monitor itself (the data logger).
+# monitor itself (the data logger).  A listener on another port is written
+# "host:port" -- the body display, on rhbbody, listens on 10002.
 DEFAULT_CLIENTS = [
-    "192.168.1.3", "192.168.1.4", "192.168.1.5", "192.168.1.8",
+    "192.168.1.3", "192.168.1.4", "192.168.1.5",
     "192.168.1.9", "192.168.1.10", "192.168.1.11", "192.168.1.13",
+    "192.168.1.3:10002",
 ]
 
 POOF_PIN = 15
@@ -95,6 +97,12 @@ async def handle_osc(data, src, dispatch=None, strict=False):
                 dispatch(timetag, (oscaddr, tags, args, src))
     except Exception as exc:
         print(f"Exception in OSC handler for {rhb_pico_utils.format_source(src)}: {exc}")
+
+
+def client_address(entry):
+    """Resolve a CLIENTS entry, "host" or "host:port", to a socket address"""
+    host, _, port = entry.partition(":")
+    return socket.getaddrinfo(host.strip(), int(port) if port else OSC_PORT)[0][-1]
 
 
 def send_poof(sock, clients, value):
@@ -175,8 +183,8 @@ async def main_loop():
     try:
         print("Starting main loop...")
         clients = [
-            socket.getaddrinfo(ip, OSC_PORT)[0][-1]
-            for ip in config.get("CLIENTS", DEFAULT_CLIENTS)
+            client_address(entry)
+            for entry in config.get("CLIENTS", DEFAULT_CLIENTS)
         ]
         asyncio.create_task(button_loop(clients))
         asyncio.create_task(stale_loop())
