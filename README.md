@@ -6,10 +6,10 @@ MicroPython on a Pico W at `192.168.1.15` and does three things:
 
 1. **Reads the 12V poof button** and sends `/poof 1.0` on press and
    `/poof 0.0` on release to every listener on the rig.
-2. **Shows accumulator pressure** from `/pressure` (rhb-sensor-monitor) on a
-   two digit readout.
-3. **Shows water bath temperature** from `/temperature` (rhb-water-heater) on a
-   second two digit readout, which blinks while `/water_heater` is 1.
+2. **Shows accumulator pressure** from `/pressure` (rhb-sensor-monitor) on the
+   left two digits of a four digit display.
+3. **Shows water bath temperature** from `/temperature` (rhb-water-heater) on the
+   right two digits, which blink while `/water_heater` is 1.
 
 OSC
 ---
@@ -33,8 +33,9 @@ button is held.  Addresses are matched exactly, so `/pressure_fine` and
   released and pressed again before it sends `1.0`.
 - A press or release only counts once the input has held for 20 ms
   (`DEBOUNCE_MS`).
-- A readout shows `--` until its first value arrives, and again after 15 s
-  without one, so it never shows a stale number.
+- Each pair shows `--` until its first value arrives, and again after 15 s
+  without one, so it never shows a stale number.  A quiet water heater also
+  stops the temperature blinking.
 - Values are rounded; above 99 shows `99`, below 0 shows a leading minus.
 
 Hardware
@@ -42,8 +43,7 @@ Hardware
 
 | Part | Pico W pin |
 | --- | --- |
-| Pressure readout, HT16K33 at I2C `0x70` | SDA GP16, SCL GP17 (I2C0) |
-| Temperature readout, HT16K33 at I2C `0x71` (bridge A0) | same bus |
+| Four digit display, HT16K33 backpack at I2C `0x70` | SDA GP16, SCL GP17 (I2C0) |
 | Button optocoupler output | GP15, internal pull-up, low = pressed |
 | Onboard LED | lit while the button is pressed |
 
@@ -58,11 +58,13 @@ it with an optocoupler such as a PC817:
 The 12V comes from a mains supply on the generator's 120V system.  That is
 about 5 mA through the LED at 12V, still fine if the supply is trimmed up to
 13V.  A 1N4148 across the opto LED (reversed) protects it from a reverse spike
-on the 12V line, such as when the generator surges.  Each HT16K33 runs from
+on the 12V line, such as when the generator surges.  The HT16K33 runs from
 the Pico's 3V3.
 
-The readouts use digits 0 and 1 of each HT16K33 (`TENS_DIGIT`, `ONES_DIGIT`
-in `rhb_pico_utils.py`); on a 4-digit backpack that is the left pair.
+Pressure is on digits 0 and 1 and temperature on 2 and 3
+(`PRESSURE_DIGITS`, `TEMPERATURE_DIGITS` in `rhb_pico_utils.py`); the colon
+stays off.  The HT16K33's own blink would flash all four digits, so the
+temperature pair is blinked in software at 1 Hz (`blink_loop` in `main.py`).
 
 Configuration
 -------------
@@ -76,7 +78,7 @@ Configuration
 | `CLIENTS` | every rig listener | Who hears `/poof`.  `host` for port 8888, `host:port` otherwise |
 | `POOF_PIN` | `15` | Button input GPIO |
 | `DEBOUNCE_MS` | `20` | How long an edge must hold |
-| `PRESSURE_DISPLAY`, `TEMPERATURE_DISPLAY` | `112` (0x70), `113` (0x71) | I2C addresses, in decimal since JSON has no hex |
+| `DISPLAY` | `112` (0x70) | I2C address of the display, in decimal since JSON has no hex |
 
 Deploying
 ---------

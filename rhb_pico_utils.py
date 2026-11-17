@@ -18,14 +18,16 @@ try:
 except ImportError:
     import uasyncio as asyncio
 
-displays = []
+display = None
 
 MAX_DGRAM_SIZE = 6000
 MINUS_GLYPH = 0x40
-# Each readout is a two digit HT16K33 board; these are the digit positions
-# the driver addresses on it.  On a 4-digit backpack they are the left pair.
-TENS_DIGIT = 0
-ONES_DIGIT = 1
+BLANK_GLYPH = 0x00
+# One 4-digit HT16K33 backpack carries both readouts, two digits each, as
+# (tens, ones) digit positions: pressure on the left, temperature on the right.
+PRESSURE_DIGITS = (0, 1)
+TEMPERATURE_DIGITS = (2, 3)
+ALL_DIGITS = (0, 1, 2, 3)
 
 
 def reboot():
@@ -34,39 +36,39 @@ def reboot():
     machine.reset()
 
 
-def show_glyphs(display, glyph):
-    """Fill both digits of one readout with the same raw glyph"""
-    display.set_glyph(glyph, TENS_DIGIT)
-    display.set_glyph(glyph, ONES_DIGIT)
-    display.draw()
+def set_glyphs(digits, glyph):
+    """Fill the given digits with the same raw glyph.  The caller draws."""
+    for digit in digits:
+        display.set_glyph(glyph, digit)
 
 
 def toggle_startup_display(count):
-    """Indicate progress on every readout by chasing one segment around"""
-    for display in displays:
-        show_glyphs(display, 1 << (count % 6))
+    """Indicate progress by chasing one segment around every digit"""
+    if display:
+        set_glyphs(ALL_DIGITS, 1 << (count % 6))
+        display.draw()
 
 
-def set_two_digits(display, value):
-    """Show `value' rounded to a whole number on one two digit readout
+def set_two_digits(digits, value):
+    """Show `value' rounded to a whole number on one readout's two digits
 
     Senders broadcast floats, some of them unrounded, so round here rather
     than truncate. Only 0-99 fits in two digits: peg anything higher at 99
-    and show a leading minus below 0.
+    and show a leading minus below 0.  The caller draws.
     """
+    tens, ones = digits
     value = round(value)
     if value < -9:
-        display.set_glyph(MINUS_GLYPH, TENS_DIGIT)
-        display.set_glyph(MINUS_GLYPH, ONES_DIGIT)
+        set_glyphs(digits, MINUS_GLYPH)
         return
     if value < 0:
-        display.set_glyph(MINUS_GLYPH, TENS_DIGIT)
-        display.set_number(-value, ONES_DIGIT)
+        display.set_glyph(MINUS_GLYPH, tens)
+        display.set_number(-value, ones)
         return
     if value > 99:
         value = 99
-    display.set_number(value // 10, TENS_DIGIT)
-    display.set_number(value % 10, ONES_DIGIT)
+    display.set_number(value // 10, tens)
+    display.set_number(value % 10, ones)
 
 
 def wifi_connection(config):

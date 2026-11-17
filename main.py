@@ -40,25 +40,50 @@ RELEASE_REPEATS = 2
 RELEASE_REPEAT_MS = 50
 # With nothing heard for this long, a readout shows -- rather than a stale value
 STALE_MS = 15000
+# While the heater is on the temperature digits blink at 1Hz: this long lit,
+# this long dark
+BLINK_HALF_PERIOD_MS = 500
 
-pressure_display = None
-temperature_display = None
+display = None
 last_heard = {"/pressure": None, "/temperature": None}
+# The temperature digits 2 and 3 show, None for --.  It is held here so the
+# blink can blank them and bring the same value back.
+temperature = None
 heater_on = False
+blink_off = False
 
 
-def set_heater_blink(on):
-    """Blink the temperature readout while the heater is on
+def show_temperature():
+    """Draw the temperature on digits 2 and 3, blanked on the off beat
 
-    Only touch the chip on a change; /water_heater arrives every cycle.
+    They blink while the heater is on.  The HT16K33's own set_blink_rate
+    cannot do that: it blinks the whole display, the pressure digits
+    included.  So blink_loop flips blink_off and redraws, and this blanks
+    just these two.
+    """
+    digits = rhb_pico_utils.TEMPERATURE_DIGITS
+    if heater_on and blink_off:
+        rhb_pico_utils.set_glyphs(digits, rhb_pico_utils.BLANK_GLYPH)
+    elif temperature is None:
+        rhb_pico_utils.set_glyphs(digits, rhb_pico_utils.MINUS_GLYPH)
+    else:
+        rhb_pico_utils.set_two_digits(digits, temperature)
+    display.draw()
+
+
+def set_heater(on):
+    """Start or stop the temperature blink
+
+    Only redraw on a change; /water_heater arrives every cycle.
     """
     global heater_on
     if on != heater_on:
         heater_on = on
-        temperature_display.set_blink_rate(2 if on else 0)
+        show_temperature()
 
 
 async def handle_osc(data, src, dispatch=None, strict=False):
+    global temperature
     try:
         head, _ = split_oscstr(data, 0)
         if head.startswith('/'):
@@ -79,16 +104,16 @@ async def handle_osc(data, src, dispatch=None, strict=False):
             # digits show.
             if oscaddr == "/pressure":
                 # Accumulator pressure, owned by rhb-sensor-monitor
-                rhb_pico_utils.set_two_digits(pressure_display, args[0])
-                pressure_display.draw()
+                rhb_pico_utils.set_two_digits(rhb_pico_utils.PRESSURE_DIGITS, args[0])
+                display.draw()
                 last_heard[oscaddr] = ticks_ms()
             elif oscaddr == "/temperature":
                 # Water bath temperature, owned by rhb-water-heater
-                rhb_pico_utils.set_two_digits(temperature_display, args[0])
-                temperature_display.draw()
+                temperature = args[0]
+                show_temperature()
                 last_heard[oscaddr] = ticks_ms()
             elif oscaddr == "/water_heater":
-                set_heater_blink(bool(round(args[0])))
+                set_heater(bool(round(args[0])))
             else:
                 continue
             if __debug__:
@@ -165,17 +190,38 @@ async def button_loop(clients):
 
 async def stale_loop():
     """Blank a readout to -- once its sender has gone quiet"""
+    global temperature, heater_on
     while True:
         now = ticks_ms()
-        for address, display in (("/pressure", pressure_display), ("/temperature", temperature_display)):
+        for address in ("/pressure", "/temperature"):
             heard = last_heard[address]
             if heard is not None and ticks_diff(now, heard) > STALE_MS:
                 last_heard[address] = None
-                rhb_pico_utils.show_glyphs(display, rhb_pico_utils.MINUS_GLYPH)
-                if display is temperature_display:
-                    set_heater_blink(False)
+                if address == "/pressure":
+                    rhb_pico_utils.set_glyphs(rhb_pico_utils.PRESSURE_DIGITS, rhb_pico_utils.MINUS_GLYPH)
+                    display.draw()
+                else:
+                    # rhb-water-heater sends /water_heater too, so it has
+                    # gone quiet as well: stop blinking a heater nobody reports
+                    temperature = None
+                    heater_on = False
+                    show_temperature()
                 print(f"{time()} {address} has gone quiet")
         await asyncio.sleep(1)
+
+
+async def blink_loop():
+    """Blink the temperature digits at 1Hz while the heater is on
+
+    Nothing to undo when it goes off: set_heater redraws on the change, and
+    show_temperature only blanks while it is on.
+    """
+    global blink_off
+    while True:
+        await asyncio.sleep_ms(BLINK_HALF_PERIOD_MS)
+        blink_off = not blink_off
+        if heater_on:
+            show_temperature()
 
 
 async def main_loop():
@@ -188,6 +234,7 @@ async def main_loop():
         ]
         asyncio.create_task(button_loop(clients))
         asyncio.create_task(stale_loop())
+        asyncio.create_task(blink_loop())
         await run_server(config["IP"], OSC_PORT, handle_osc)
     except Exception as e:
         print(f"Exception in main_loop: {e}")
@@ -205,18 +252,17 @@ if __name__ == "__main__":
     if devices:
         for d in devices:
             print(f"I2C device found: {hex(d)}")
-    pressure_display = HT16K33Segment(i2c, config.get("PRESSURE_DISPLAY", 0x70))
-    temperature_display = HT16K33Segment(i2c, config.get("TEMPERATURE_DISPLAY", 0x71))
-    rhb_pico_utils.displays = [pressure_display, temperature_display]
-    for display in rhb_pico_utils.displays:
-        display.set_brightness(8)
-        display.set_blink_rate(0)
+    display = HT16K33Segment(i2c, config.get("DISPLAY", 0x70))
+    rhb_pico_utils.display = display
+    display.set_brightness(8)
+    display.set_blink_rate(0)
 
     try:
         rhb_pico_utils.toggle_startup_display(1)
         wlan = wifi_connection(config)
-        for display in rhb_pico_utils.displays:
-            rhb_pico_utils.show_glyphs(display, rhb_pico_utils.MINUS_GLYPH)  # -- until data arrives
+        # -- -- until data arrives
+        rhb_pico_utils.set_glyphs(rhb_pico_utils.ALL_DIGITS, rhb_pico_utils.MINUS_GLYPH)
+        display.draw()
         asyncio.run(main_loop())
     except Exception as e:
         print(f"{e}")
