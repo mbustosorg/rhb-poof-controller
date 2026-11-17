@@ -41,25 +41,17 @@ button is held.  Addresses are matched exactly, so `/pressure_fine` and
 Hardware
 --------
 
+[HARDWARE.md](HARDWARE.md) has the full circuit: board choice, power,
+wiring and parts.
+
 | Part | Pico W pin |
 | --- | --- |
 | Four digit display, HT16K33 backpack at I2C `0x70` | SDA GP16, SCL GP17 (I2C0) |
 | Button optocoupler output | GP15, internal pull-up, low = pressed |
 | Onboard LED | lit while the button is pressed |
 
-The Pico's GPIO is 3.3V only, so the 12V button must not touch it.  Isolate
-it with an optocoupler such as a PC817:
-
-    12V --- button --- 2.2k --- PC817 anode (1)
-                                PC817 cathode (2) --- 12V supply ground (-)
-    GP15 ----------------------- PC817 collector (4)
-    Pico GND ------------------- PC817 emitter (3)
-
-The 12V comes from a mains supply on the generator's 120V system.  That is
-about 5 mA through the LED at 12V, still fine if the supply is trimmed up to
-13V.  A 1N4148 across the opto LED (reversed) protects it from a reverse spike
-on the 12V line, such as when the generator surges.  The HT16K33 runs from
-the Pico's 3V3.
+The 12V button reaches GP15 only through a PC817 optocoupler, since the
+Pico's GPIO is 3.3V only.
 
 Pressure is on digits 0 and 1 and temperature on 2 and 3
 (`PRESSURE_DIGITS`, `TEMPERATURE_DIGITS` in `rhb_pico_utils.py`); the colon
