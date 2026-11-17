@@ -49,8 +49,8 @@
   <text x="190" y="240" text-anchor="end" class="pin">−</text>
 
   <rect x="40" y="540" width="160" height="60" rx="6" class="box"/>
-  <text x="120" y="566" text-anchor="middle" class="lbl">5V USB supply</text>
-  <text x="120" y="584" text-anchor="middle" class="val">120V AC in</text>
+  <text x="120" y="566" text-anchor="middle" class="lbl">PoE switch</text>
+  <text x="120" y="584" text-anchor="middle" class="val">802.3af, 120V AC in</text>
 
   <!-- 12V +: fuse, button, resistor, to opto anode -->
   <path d="M200,185 H235" class="wire v12"/>
@@ -117,24 +117,24 @@
 
   <!-- Pico W -->
   <rect x="880" y="150" width="180" height="310" rx="8" class="box"/>
-  <text x="970" y="285" text-anchor="middle" class="lbl" font-size="18" font-weight="bold">Pico W</text>
-  <text x="970" y="305" text-anchor="middle" class="val">MicroPython</text>
-  <text x="970" y="323" text-anchor="middle" class="val">192.168.1.15</text>
-  <text x="970" y="341" text-anchor="middle" class="val">WiFi "rhb"</text>
-  <text x="888" y="190" class="pin">GP15 (20)</text>
+  <text x="970" y="285" text-anchor="middle" class="lbl" font-size="16" font-weight="bold">ESP32-S3-</text>
+  <text x="970" y="303" text-anchor="middle" class="lbl" font-size="16" font-weight="bold">POE-ETH</text>
+  <text x="970" y="323" text-anchor="middle" class="val">CircuitPython</text>
+  <text x="970" y="341" text-anchor="middle" class="val">192.168.1.15, wired</text>
+  <text x="888" y="190" class="pin">IO40 (11)</text>
   <text x="888" y="206" class="note">internal pull-up</text>
-  <text x="888" y="240" class="pin">GND (18)</text>
-  <text x="1052" y="375" text-anchor="end" class="pin">3V3 OUT (36)</text>
+  <text x="888" y="240" class="pin">GND (13)</text>
+  <text x="1052" y="375" text-anchor="end" class="pin">3V3 (36)</text>
   <text x="1052" y="405" text-anchor="end" class="pin">GND (38)</text>
-  <text x="1052" y="230" text-anchor="end" class="pin">GP16 SDA (21)</text>
-  <text x="1052" y="260" text-anchor="end" class="pin">GP17 SCL (22)</text>
-  <circle cx="900" cy="425" r="6" fill="#2ecc71" stroke="#222" stroke-width="1.5"/>
-  <text x="912" y="429" class="note">onboard LED</text>
+  <text x="1052" y="230" text-anchor="end" class="pin">IO39 SDA (12)</text>
+  <text x="1052" y="260" text-anchor="end" class="pin">IO38 SCL (14)</text>
+  <circle cx="900" cy="425" r="6" fill="#e74c3c" stroke="#222" stroke-width="1.5"/>
+  <text x="912" y="429" class="note">RGB LED, red</text>
   <text x="912" y="445" class="note">lit while pressed</text>
 
   <!-- 5V USB into the Pico -->
   <path d="M200,570 H970 V460" class="wire v5"/>
-  <text x="980" y="490" class="val">micro USB, 5V</text>
+  <text x="980" y="490" class="val">RJ45, Ethernet + PoE</text>
 
   <!-- Display -->
   <rect x="1130" y="190" width="140" height="240" rx="6" class="box"/>
@@ -159,8 +159,8 @@
   <g transform="translate(300,385)">
     <text x="0" y="0" class="lbl" font-weight="bold">Wires</text>
     <line x1="0" y1="20" x2="30" y2="20" class="wire v12"/><text x="40" y="25" class="val">12V +</text>
-    <line x1="0" y1="42" x2="30" y2="42" class="wire gnd12"/><text x="40" y="47" class="val">ground (12V side and Pico side are separate)</text>
-    <line x1="0" y1="64" x2="30" y2="64" class="wire v5"/><text x="40" y="69" class="val">5V USB</text>
+    <line x1="0" y1="42" x2="30" y2="42" class="wire gnd12"/><text x="40" y="47" class="val">ground (12V side and board side are separate)</text>
+    <line x1="0" y1="64" x2="30" y2="64" class="wire v5"/><text x="40" y="69" class="val">Ethernet + PoE</text>
     <line x1="0" y1="86" x2="30" y2="86" class="wire v33"/><text x="40" y="91" class="val">3.3V</text>
     <line x1="0" y1="108" x2="30" y2="108" class="wire sig"/><text x="40" y="113" class="val">button signal</text>
     <line x1="0" y1="130" x2="30" y2="130" class="wire i2c"/><text x="40" y="135" class="val">I2C</text>

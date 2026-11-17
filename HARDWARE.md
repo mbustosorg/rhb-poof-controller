@@ -1,64 +1,82 @@
 Poof Controller Hardware
 ========================
 
-The poof button panel is a Pico W, one optocoupler for the 12V button, and a
-four digit HT16K33 display, on two separate supplies.
+The poof button panel is a Waveshare ESP32-S3-POE-ETH, wired to the rig and
+powered over PoE, with one optocoupler for the 12V button and a four digit
+HT16K33 display.
 
 ![Poof controller circuit](circuit.svg)
+
+[kicad/](kicad/README.md) has a two layer carrier board for it.
 
 Board
 -----
 
-Use a **Raspberry Pi Pico W**.  A Pico 2 W also works with the code unchanged,
-flashed with the RP2350 build of MicroPython.  A Pi Zero 2 W (as in
-rhb-gauge-panel) is the wrong board here:
+Use a **Waveshare ESP32-S3-POE-ETH**: the ESP32-S3-ETH with Waveshare's PoE
+module.  It is the board rhb-water-heater runs on:
 
-- The code is MicroPython (`machine.Pin`, `network.WLAN`, `Pin("LED")`).  A
-  Zero runs Linux and CPython and would need it rewritten.
-- The Pico is sending `/poof` about a second after power up; a Zero takes
-  20-30 s to boot.
-- The generator gets switched off without warning.  A Pico has no SD card to
-  corrupt when that happens.
-- The button loop polls every 2 ms with nothing else on the core, so the
-  timing does not depend on what Linux is scheduling.
+- One board type and one toolchain on the rig, and spares that swap.
+- Its W5500 handling, which took some getting right, is already written and
+  is reused here.
+- Ethernet instead of WiFi, and one cable for network and power.
+
+The PoE module needs an **802.3af** PoE switch or injector at the other end
+of the cable.  A run can be up to 100 m.
+
+The board is 72.8 x 21 mm.  Its 2 x 20 headers are Pico compatible: 2.54 mm
+pitch, rows 17.78 mm apart, power and ground pins where a Pico's are.  Pin
+numbers below are the physical pins, which Waveshare numbers like a Pico's,
+1 and 40 at the RJ45 end.
+
+Its two faces:
+
+- **Top**: the RJ45 jack, its magnetics, the ESP32-S3, and the PoE module,
+  which stacks on standoffs over the RJ45.
+- **Bottom**: the W5500, the TF card slot and the USB-C port.
+
+It mounts on the carrier top face up, on male headers soldered to point down
+into female headers on the carrier, with the RJ45 end over the carrier's
+edge.  The cable plugs into the end and the USB-C, needed to load code, stays
+reachable.
 
 System
 ------
 
-    120V generator
-     |
-     +-- 12V supply ---- fuse ---- poof button ---- opto LED (12V side)
-     |                                                 .
-     |                                     (isolated)  .
-     |                                                 .
-     +-- 5V USB supply ---- Pico W ---- opto transistor (3.3V side)
-                             |  |
-                             |  +-- I2C ---- HT16K33 four digit display
-                             |
-                             +-- WiFi "rhb", 192.168.1.15
-                                   out: /poof        -> CLIENTS on :8888,
-                                                        body display on :10002
-                                   in:  /pressure    <- rhb-sensor-monitor
-                                        /temperature <- rhb-water-heater
-                                        /water_heater <- rhb-water-heater
+    PoE switch (802.3af) ==== Cat5e/6, up to 100 m ==== RJ45
+                                                         |
+                                     PoE module -- 5V -- ESP32-S3-ETH
+                                                         |  |  |
+    120V generator                                       |  |  +-- I2C -- HT16K33 display
+     |                                                   |  |
+     +-- 12V supply -- fuse -- button -- opto LED        |  +-- opto transistor
+                                           .  (isolated) .
+                                           . . . . . . . .
 
-The two supplies share no ground.  That is the point of the optocoupler: the
-button's wiring runs out to the operator, and anything it picks up stays on
-the 12V side.  Feeding the Pico from the 12V supply through a buck converter
-would join the grounds and undo that.
+    192.168.1.15, wired
+      out: /poof         -> CLIENTS on :8888, body display on :10002
+      in:  /pressure     <- rhb-sensor-monitor
+           /temperature  <- rhb-water-heater
+           /water_heater <- rhb-water-heater
+
+The 12V side shares no ground with the board.  That is the point of the
+optocoupler: the button's wiring runs out to the operator, and anything it
+picks up stays on the 12V side.  Feeding the board from the 12V supply would
+join the grounds and undo that.  With PoE nothing connects the board to the
+12V supply's ground.
 
 Wiring
 ------
-
-Pico W pin numbers are the physical pins, counting from the USB end.
 
 ### Power
 
 | From | To |
 | --- | --- |
-| 5V USB supply (120V adapter) | Pico W micro USB |
+| PoE switch or injector | RJ45, through the PoE module to VSYS |
 | 12V supply + | Fuse, 250 mA, then the button |
 | 12V supply - | PC817 pin 2 (cathode) |
+
+USB-C also powers the board, for loading code on the bench.  The board's own
+diode keeps PoE and USB from feeding each other.
 
 ### Button and optocoupler
 
@@ -69,8 +87,8 @@ Pico W pin numbers are the physical pins, counting from the USB end.
                                           |
     12V - --------------------------------+--- PC817 2 (cathode)
 
-    Pico GP15 (pin 20) ------------------------ PC817 4 (collector)
-    Pico GND  (pin 18) ------------------------ PC817 3 (emitter)
+    IO40 (pin 11) ----------------------------- PC817 4 (collector)
+    GND  (pin 13) ----------------------------- PC817 3 (emitter)
 
 | Part | Value | Why |
 | --- | --- | --- |
@@ -78,40 +96,43 @@ Pico W pin numbers are the physical pins, counting from the USB end.
 | R1 | 2.2k, 1/4 W | (12V - 1.2V) / 2.2k = 4.9 mA through the LED, 5.4 mA at 13V.  The PC817 allows 50 mA |
 | D1 | 1N4148 | Reverse across the LED.  The PC817 LED tolerates only 6V reversed, and a generator surge can ring the 12V line |
 | U1 | PC817 | At 5 mA in and its worst case 50% CTR it sinks 2.5 mA; the pull-up needs well under 0.1 mA |
-| Pull-up | Pico internal on GP15 | Enabled in `button_loop`.  Add an external 10k to 3V3 (pin 36) only if the opto sits far from the Pico |
+| Pull-up | ESP32 internal on IO40 | Enabled by `keypad`.  Add an external 10k to 3V3 (pin 36) only if the opto sits far from the board |
 
-Pressed, the transistor pulls GP15 low; released, the pull-up holds it high.
-`button_loop` debounces 20 ms either way, so a spike shorter than that cannot
+Pressed, the transistor pulls IO40 low; released, the pull-up holds it high.
+`keypad` debounces 20 ms either way, so a spike shorter than that cannot
 poof.
+
+IO40 is free on this board.  Avoid IO35-37 (the PSRAM), IO0, IO3, IO45 and
+IO46 (boot strapping), IO9-14 (the W5500), IO4-7 (the TF card), IO19-20 (USB)
+and IO21 (the RGB LED).
 
 ### Display
 
 An Adafruit 0.56" four digit seven segment backpack (HT16K33), address `0x70`
-with no address jumpers bridged.
+with no address jumpers bridged, on the same pins as rhb-water-heater's.
 
-| Backpack | Pico W |
+| Backpack | ESP32-S3-ETH |
 | --- | --- |
-| `+` (VCC) | 3V3 OUT, pin 36 |
+| `+` (VCC) | 3V3, pin 36 |
 | `-` (GND) | GND, pin 38 |
-| `D` (SDA) | GP16, pin 21 |
-| `C` (SCL) | GP17, pin 22 |
-| `IO`, if present | 3V3 OUT, pin 36 |
+| `D` (SDA) | IO39, pin 12 |
+| `C` (SCL) | IO38, pin 14 |
+| `IO`, if present | 3V3, pin 36 |
 
 Run it from 3V3, not 5V.  The backpack's pull-ups on `D` and `C` go to its
-supply, and 5V on those lines would reach the Pico's 3.3V-only pins.  At
-brightness 8 the display draws well within what the Pico's 3V3 regulator
-supplies.
+supply, and 5V on those lines would reach the ESP32's 3.3V-only pins.
 
 ### Onboard
 
-The Pico W's onboard LED lights while the button is pressed.
+The board's WS2812 RGB LED (IO21) lights red while the button is pressed.
 
 Parts
 -----
 
 | Qty | Part |
 | --- | --- |
-| 1 | Raspberry Pi Pico W (or Pico 2 W) |
+| 1 | Waveshare ESP32-S3-POE-ETH (the ESP32-S3-ETH with the PoE module) |
+| 1 | 2 x 20 male headers for it, and 2 x 20 female for the carrier |
 | 1 | Adafruit 0.56" four digit seven segment display with I2C backpack |
 | 1 | PC817 optocoupler |
 | 1 | 2.2k resistor, 1/4 W |
@@ -119,4 +140,4 @@ Parts
 | 1 | Inline fuse holder and 250 mA fuse |
 | 1 | Momentary N.O. pushbutton, 12V |
 | 1 | 12V supply on the 120V system |
-| 1 | 5V USB supply on the 120V system, and a micro USB cable |
+| 1 | 802.3af PoE switch or injector, and Cat5e or Cat6 cable |

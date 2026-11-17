@@ -2,7 +2,8 @@ Red Hot Beverly Poof Controller
 ===============================
 
 `rhb-poof-controller` is the poof button panel for the Red Hot Beverly.  It runs
-MicroPython on a Pico W at `192.168.1.15` and does three things:
+CircuitPython on a Waveshare ESP32-S3-POE-ETH at `192.168.1.15`, wired and
+powered over PoE, and does three things:
 
 1. **Reads the 12V poof button** and sends `/poof 1.0` on press and
    `/poof 0.0` on release to every listener on the rig.
@@ -32,11 +33,16 @@ button is held.  Addresses are matched exactly, so `/pressure_fine` and
 - At boot it sends `/poof 0.0`.  A button already held at power up must be
   released and pressed again before it sends `1.0`.
 - A press or release only counts once the input has held for 20 ms
-  (`DEBOUNCE_MS`).
+  (`DEBOUNCE_MS`).  The button is scanned in the background (`keypad`), so
+  an edge is still caught, and sent late rather than lost, while the event
+  loop is stopped in a send.
+- A listener that a send fails to reach is skipped for 2, 4, 8 ... s, up to
+  60 s, so one that is switched off does not hold up the rest.  Each failed
+  send costs up to 0.5 s while the W5500 tries to find it.
 - Each pair shows `--` until its first value arrives, and again after 15 s
   without one, so it never shows a stale number.  A quiet water heater also
   stops the temperature blinking.
-- Values are rounded; above 99 shows `99`, below 0 shows a leading minus.
+- Values are rounded; above 99 shows `99`, below 0 shows `--`.
 
 Hardware
 --------
@@ -44,19 +50,25 @@ Hardware
 [HARDWARE.md](HARDWARE.md) has the full circuit: board choice, power,
 wiring and parts.
 
-| Part | Pico W pin |
+| Part | ESP32-S3-ETH pin |
 | --- | --- |
-| Four digit display, HT16K33 backpack at I2C `0x70` | SDA GP16, SCL GP17 (I2C0) |
-| Button optocoupler output | GP15, internal pull-up, low = pressed |
-| Onboard LED | lit while the button is pressed |
+| Four digit display, HT16K33 backpack at I2C `0x70` | SDA IO39, SCL IO38, as rhb-water-heater |
+| Button optocoupler output | IO40, internal pull-up, low = pressed |
+| Onboard RGB LED | red while the button is pressed |
+| W5500 Ethernet | IO9-IO14, on the board |
 
-The 12V button reaches GP15 only through a PC817 optocoupler, since the
-Pico's GPIO is 3.3V only.
+The 12V button reaches IO40 only through a PC817 optocoupler, since the
+ESP32's GPIO is 3.3V only.
 
 Pressure is on digits 0 and 1 and temperature on 2 and 3
-(`PRESSURE_DIGITS`, `TEMPERATURE_DIGITS` in `rhb_pico_utils.py`); the colon
+(`PRESSURE_DIGITS`, `TEMPERATURE_DIGITS` in `rhb_utils.py`); the colon
 stays off.  The HT16K33's own blink would flash all four digits, so the
-temperature pair is blinked in software at 1 Hz (`blink_loop` in `main.py`).
+temperature pair is blinked in software at 1 Hz (`blink_loop` in `code.py`).
+
+This is the water heater's board, and the Ethernet and display code is its
+code: `rhb_utils.py` and the OSC receive path (`poll_osc`, `start_osc`)
+carry its fixes for the W5500's socket timeout and receive buffer.  Keep the
+two in step.
 
 Configuration
 -------------
@@ -65,26 +77,27 @@ Configuration
 
 | Key | Default | Meaning |
 | --- | --- | --- |
-| `WIFI_SSID`, `WIFI_PASSWORD` | | The rig WiFi |
-| `IP` | | Static address.  The rig has no DHCP |
+| `IP` | | Static address.  The rig has no DHCP on the wired side |
 | `CLIENTS` | every rig listener | Who hears `/poof`.  `host` for port 8888, `host:port` otherwise |
-| `POOF_PIN` | `15` | Button input GPIO |
+| `POOF_PIN` | `"IO40"` | Button input, a `board` pin name |
 | `DEBOUNCE_MS` | `20` | How long an edge must hold |
 | `DISPLAY` | `112` (0x70) | I2C address of the display, in decimal since JSON has no hex |
 
 Deploying
 ---------
 
-Flash MicroPython for the Pico W, then copy these to the board with Thonny or
-`mpremote cp`:
+Flash CircuitPython for the Waveshare ESP32-S3-ETH, as for rhb-water-heater,
+then copy these to the `CIRCUITPY` volume over the board's USB-C:
 
-- `main.py`, `rhb_pico_utils.py`, `config_rhb.json`
-- `uosc/` from [micropython-osc](https://github.com/SpotlightKid/micropython-osc)
-- `ht16k33.mpy`, `ht16k33segment.mpy` from
-  [HT16K33-Python](https://github.com/smittytone/HT16K33-Python)
+- `code.py`, `rhb_utils.py`, `config_rhb.json`
+- From the Adafruit CircuitPython bundle, into `lib/`: `adafruit_ht16k33`,
+  `adafruit_bus_device`, `adafruit_wiznet5k`, `adafruit_ticks`, `asyncio`,
+  and `neopixel` for the status LED (optional)
+- `microosc` from the Community bundle
 
-Power save is turned off on the WiFi radio; without it the water heater's
-W5500 cannot reach this board.
+The board soft reboots on write.  The console is on
+`/dev/cu.usbmodem<UID>`; use `cu.*`, not `tty.*`.  It shows `[[]]` flashing
+until the Ethernet link is up, then `-- --` until data arrives.
 
 Testing
 -------
