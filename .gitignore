@@ -3,3 +3,10 @@
 __pycache__
 config*.json
 venv
+kicad/*.dsn
+kicad/*.ses
+kicad/*.kicad_prl
+kicad/*-backups
+kicad/~*.lck
+kicad/fp-info-cache
+kicad/logs

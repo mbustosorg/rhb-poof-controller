@@ -1,0 +1,1367 @@
+(export
+	(version "E")
+	(design
+		(source "/Users/mauricio/Documents/development/projects/rhb-poof-controller/kicad/rhb_poof_controller.kicad_sch")
+		(date "2026-11-17T10:49:56")
+		(tool "Eeschema 10.0.3")
+		(sheet
+			(number "1")
+			(name "/")
+			(tstamps "/")
+			(title_block
+				(title)
+				(company)
+				(rev)
+				(date)
+				(source "rhb_poof_controller.kicad_sch")
+				(comment
+					(number "1")
+					(value "")
+				)
+				(comment
+					(number "2")
+					(value "")
+				)
+				(comment
+					(number "3")
+					(value "")
+				)
+				(comment
+					(number "4")
+					(value "")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+	)
+	(components
+		(comp
+			(ref "D1")
+			(value "1N4148")
+			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "rhb")
+				(part "D")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "rhb_poof_controller.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "8c076d6d-f644-4b5e-a98c-d95e0b8dbfab")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J1")
+			(value "Button, 12V-")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "rhb")
+				(part "Term2")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "rhb_poof_controller.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "a475e6f7-39b1-462d-b675-8549c3203da5")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J2")
+			(value "HT16K33 display")
+			(footprint "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical")
+			(fields
+				(field
+					(name "Footprint") "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "rhb")
+				(part "Display4")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "rhb_poof_controller.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "8607c5f0-1336-4c67-8428-160ac4abd2bb")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R1")
+			(value "2.2k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "rhb")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "rhb_poof_controller.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "926e886f-1513-45de-ba44-aaf0b125bc32")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U1")
+			(value "PC817")
+			(footprint "Package_DIP:DIP-4_W7.62mm")
+			(fields
+				(field
+					(name "Footprint") "Package_DIP:DIP-4_W7.62mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "rhb")
+				(part "PC817")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "rhb_poof_controller.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "14c01261-9176-49a7-adb0-b8f36ff80f55")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U2")
+			(value "Waveshare ESP32-S3-POE-ETH")
+			(footprint "rhb:Waveshare_ESP32-S3-ETH")
+			(datasheet "https://docs.waveshare.com/ESP32-S3-ETH")
+			(fields
+				(field
+					(name "Footprint") "rhb:Waveshare_ESP32-S3-ETH")
+				(field
+					(name "Datasheet") "https://docs.waveshare.com/ESP32-S3-ETH")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "rhb")
+				(part "ESP32-S3-ETH")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "rhb_poof_controller.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "20d6251b-4db1-48d6-bd96-6763e35f3147")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "40")
+						)
+						(pin
+							(num "39")
+						)
+						(pin
+							(num "38")
+						)
+						(pin
+							(num "37")
+						)
+						(pin
+							(num "36")
+						)
+						(pin
+							(num "35")
+						)
+						(pin
+							(num "34")
+						)
+						(pin
+							(num "33")
+						)
+						(pin
+							(num "32")
+						)
+						(pin
+							(num "31")
+						)
+						(pin
+							(num "30")
+						)
+						(pin
+							(num "29")
+						)
+						(pin
+							(num "28")
+						)
+						(pin
+							(num "27")
+						)
+						(pin
+							(num "26")
+						)
+						(pin
+							(num "25")
+						)
+						(pin
+							(num "24")
+						)
+						(pin
+							(num "23")
+						)
+						(pin
+							(num "22")
+						)
+						(pin
+							(num "21")
+						)
+					)
+				)
+			)
+		)
+	)
+	(groups)
+	(variants)
+	(libparts
+		(libpart
+			(lib "rhb")
+			(part "D")
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value")
+				)
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "rhb")
+			(part "Display4")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "HT16K33 display")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "+")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "-")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "D")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "C")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "rhb")
+			(part "ESP32-S3-ETH")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "Waveshare ESP32-S3-POE-ETH")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "IO20")
+					(type "bidirectional")
+				)
+				(pin
+					(num "2")
+					(name "IO19")
+					(type "bidirectional")
+				)
+				(pin
+					(num "3")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "IO48")
+					(type "bidirectional")
+				)
+				(pin
+					(num "5")
+					(name "IO47")
+					(type "bidirectional")
+				)
+				(pin
+					(num "6")
+					(name "IO46")
+					(type "bidirectional")
+				)
+				(pin
+					(num "7")
+					(name "IO45")
+					(type "bidirectional")
+				)
+				(pin
+					(num "8")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "9")
+					(name "IO42")
+					(type "bidirectional")
+				)
+				(pin
+					(num "10")
+					(name "IO41")
+					(type "bidirectional")
+				)
+				(pin
+					(num "11")
+					(name "IO40")
+					(type "bidirectional")
+				)
+				(pin
+					(num "12")
+					(name "IO39")
+					(type "bidirectional")
+				)
+				(pin
+					(num "13")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "14")
+					(name "IO38")
+					(type "bidirectional")
+				)
+				(pin
+					(num "15")
+					(name "IO37")
+					(type "bidirectional")
+				)
+				(pin
+					(num "16")
+					(name "IO36")
+					(type "bidirectional")
+				)
+				(pin
+					(num "17")
+					(name "IO35")
+					(type "bidirectional")
+				)
+				(pin
+					(num "18")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "19")
+					(name "IO34")
+					(type "bidirectional")
+				)
+				(pin
+					(num "20")
+					(name "IO33")
+					(type "bidirectional")
+				)
+				(pin
+					(num "21")
+					(name "IO43")
+					(type "bidirectional")
+				)
+				(pin
+					(num "22")
+					(name "IO44")
+					(type "bidirectional")
+				)
+				(pin
+					(num "23")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "24")
+					(name "IO0")
+					(type "bidirectional")
+				)
+				(pin
+					(num "25")
+					(name "IO1")
+					(type "bidirectional")
+				)
+				(pin
+					(num "26")
+					(name "IO2")
+					(type "bidirectional")
+				)
+				(pin
+					(num "27")
+					(name "IO3")
+					(type "bidirectional")
+				)
+				(pin
+					(num "28")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "29")
+					(name "IO15")
+					(type "bidirectional")
+				)
+				(pin
+					(num "30")
+					(name "CHIP_UP")
+					(type "input")
+				)
+				(pin
+					(num "31")
+					(name "IO18")
+					(type "bidirectional")
+				)
+				(pin
+					(num "32")
+					(name "IO16")
+					(type "bidirectional")
+				)
+				(pin
+					(num "33")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "34")
+					(name "IO17")
+					(type "bidirectional")
+				)
+				(pin
+					(num "35")
+					(name "IO21")
+					(type "bidirectional")
+				)
+				(pin
+					(num "36")
+					(name "3V3")
+					(type "power_out")
+				)
+				(pin
+					(num "37")
+					(name "3V3_EN")
+					(type "input")
+				)
+				(pin
+					(num "38")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "39")
+					(name "VSYS")
+					(type "power_out")
+				)
+				(pin
+					(num "40")
+					(name "VBUS")
+					(type "power_out")
+				)
+			)
+		)
+		(libpart
+			(lib "rhb")
+			(part "PC817")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "PC817")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "A")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "E")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "C")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "rhb")
+			(part "R")
+			(fields
+				(field
+					(name "Reference") "R")
+				(field
+					(name "Value")
+				)
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "rhb")
+			(part "Term2")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Button, 12V-")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "BTN")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "12V-")
+					(type "passive")
+				)
+			)
+		)
+	)
+	(libraries)
+	(nets
+		(net
+			(code "1")
+			(name "/+3V3")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "1")
+				(pinfunction "+_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "36")
+				(pinfunction "3V3_36")
+				(pintype "power_out")
+			)
+		)
+		(net
+			(code "2")
+			(name "/BTN_12V")
+			(class "Default")
+			(node
+				(ref "J1")
+				(pin "1")
+				(pinfunction "BTN_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R1")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "3")
+			(name "/GND")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "2")
+				(pinfunction "-_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "3")
+				(pinfunction "E_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "13")
+				(pinfunction "GND_13")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "18")
+				(pinfunction "GND_18")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "23")
+				(pinfunction "GND_23")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "28")
+				(pinfunction "GND_28")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "3")
+				(pinfunction "GND_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "33")
+				(pinfunction "GND_33")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "38")
+				(pinfunction "GND_38")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "8")
+				(pinfunction "GND_8")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "4")
+			(name "/GND_12V")
+			(class "Default")
+			(node
+				(ref "D1")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J1")
+				(pin "2")
+				(pinfunction "12V-_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "2")
+				(pinfunction "K_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "5")
+			(name "/OPTO_A")
+			(class "Default")
+			(node
+				(ref "D1")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R1")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "6")
+			(name "/POOF")
+			(class "Default")
+			(node
+				(ref "U1")
+				(pin "4")
+				(pinfunction "C_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "11")
+				(pinfunction "IO40_11")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "7")
+			(name "/SCL")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "4")
+				(pinfunction "C_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "14")
+				(pinfunction "IO38_14")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "8")
+			(name "/SDA")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "3")
+				(pinfunction "D_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "12")
+				(pinfunction "IO39_12")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "9")
+			(name "unconnected-(U2-3V3_EN-Pad37)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "37")
+				(pinfunction "3V3_EN_37")
+				(pintype "input+no_connect")
+			)
+		)
+		(net
+			(code "10")
+			(name "unconnected-(U2-CHIP_UP-Pad30)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "30")
+				(pinfunction "CHIP_UP_30")
+				(pintype "input+no_connect")
+			)
+		)
+		(net
+			(code "11")
+			(name "unconnected-(U2-IO0-Pad24)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "24")
+				(pinfunction "IO0_24")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "12")
+			(name "unconnected-(U2-IO1-Pad25)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "25")
+				(pinfunction "IO1_25")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "13")
+			(name "unconnected-(U2-IO2-Pad26)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "26")
+				(pinfunction "IO2_26")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "14")
+			(name "unconnected-(U2-IO3-Pad27)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "27")
+				(pinfunction "IO3_27")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "15")
+			(name "unconnected-(U2-IO15-Pad29)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "29")
+				(pinfunction "IO15_29")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "16")
+			(name "unconnected-(U2-IO16-Pad32)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "32")
+				(pinfunction "IO16_32")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "17")
+			(name "unconnected-(U2-IO17-Pad34)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "34")
+				(pinfunction "IO17_34")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "18")
+			(name "unconnected-(U2-IO18-Pad31)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "31")
+				(pinfunction "IO18_31")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "19")
+			(name "unconnected-(U2-IO19-Pad2)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "2")
+				(pinfunction "IO19_2")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "20")
+			(name "unconnected-(U2-IO20-Pad1)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "1")
+				(pinfunction "IO20_1")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "21")
+			(name "unconnected-(U2-IO21-Pad35)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "35")
+				(pinfunction "IO21_35")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "22")
+			(name "unconnected-(U2-IO33-Pad20)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "20")
+				(pinfunction "IO33_20")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "23")
+			(name "unconnected-(U2-IO34-Pad19)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "19")
+				(pinfunction "IO34_19")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "24")
+			(name "unconnected-(U2-IO35-Pad17)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "17")
+				(pinfunction "IO35_17")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "25")
+			(name "unconnected-(U2-IO36-Pad16)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "16")
+				(pinfunction "IO36_16")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "26")
+			(name "unconnected-(U2-IO37-Pad15)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "15")
+				(pinfunction "IO37_15")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "27")
+			(name "unconnected-(U2-IO41-Pad10)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "10")
+				(pinfunction "IO41_10")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "28")
+			(name "unconnected-(U2-IO42-Pad9)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "9")
+				(pinfunction "IO42_9")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "29")
+			(name "unconnected-(U2-IO43-Pad21)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "21")
+				(pinfunction "IO43_21")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "30")
+			(name "unconnected-(U2-IO44-Pad22)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "22")
+				(pinfunction "IO44_22")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "31")
+			(name "unconnected-(U2-IO45-Pad7)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "7")
+				(pinfunction "IO45_7")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "32")
+			(name "unconnected-(U2-IO46-Pad6)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "6")
+				(pinfunction "IO46_6")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "33")
+			(name "unconnected-(U2-IO47-Pad5)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "5")
+				(pinfunction "IO47_5")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "34")
+			(name "unconnected-(U2-IO48-Pad4)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "4")
+				(pinfunction "IO48_4")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "35")
+			(name "unconnected-(U2-VBUS-Pad40)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "40")
+				(pinfunction "VBUS_40")
+				(pintype "power_out+no_connect")
+			)
+		)
+		(net
+			(code "36")
+			(name "unconnected-(U2-VSYS-Pad39)")
+			(class "Default")
+			(node
+				(ref "U2")
+				(pin "39")
+				(pinfunction "VSYS_39")
+				(pintype "power_out+no_connect")
+			)
+		)
+	)
+)
