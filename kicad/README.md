@@ -1,13 +1,9 @@
 Poof Controller Board
 =====================
 
-A two layer, 74 x 62 mm carrier for the circuit in
-[HARDWARE.md](../HARDWARE.md): a Waveshare ESP32-S3-POE-ETH on headers, the
-button's optocoupler, and connectors for the button and the display.
+Two layer, 74 x 62 mm carrier for the circuit in [HARDWARE.md](../HARDWARE.md).
 
 ![Board, top](board.png)
-
-The module shows as an outline; there is no 3D model for it.
 
 | Ref | Part | Footprint |
 | --- | --- | --- |
@@ -19,30 +15,21 @@ The module shows as an outline; there is no 3D model for it.
 | J2 | JST-XH 4 pin, to the display | `Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical` |
 | H1-H4 | M3 holes | `MountingHole:MountingHole_3.2mm_M3` |
 
-- **U2** mounts top face up (the RJ45 and PoE module's side), on male headers
-  pointing down into female headers on the carrier.  Its RJ45 / USB-C end
-  hangs 2 mm past the left edge, so the cable and a USB-C plug for loading
-  code both clear the carrier.  Power comes in over PoE; nothing else powers
-  the board.
-- **J1** `BTN` takes the button wire after the inline 250 mA fuse and the
-  button, so it is 12V only while the button is held.  `12V-` is the 12V
+- **U2** mounts top face up; its RJ45 / USB-C end overhangs the left edge by
+  2 mm.
+- **J1** takes the button wire, after the inline fuse at the supply, and the
   supply's negative.
-- **J2** is `+ - D C`, left to right, matching the backpack's pins.
-- **Isolation**: the ground pour, on the bottom layer, covers only the board
-  side and stops at the middle of the PC817.  The 12V traces along the
-  bottom share no copper with it.
+- The bottom ground pour stops at the middle of the PC817, keeping the 12V
+  side isolated.
 
-The module's footprint, `rhb.pretty/Waveshare_ESP32-S3-ETH.kicad_mod`, is
-built from Waveshare's dimension drawing (see `generate_footprint.py`).  The
-headers are Pico compatible, so the pads are a Pico's.  **Check it against a
-real board before ordering**: hold the module over a 1:1 print of the board
-and see that its pins land on the pads with pin 1 where the square pad is.
+The U2 footprint comes from Waveshare's dimension drawing.  **Check it against
+a real board before ordering**: lay the module on a 1:1 print and see that
+pin 1 lands on the square pad.
 
 Regenerating
 ------------
 
-The footprint, schematic and board are generated; edit the scripts, not the
-KiCad files, then run from this directory:
+Edit the scripts, not the KiCad files, then run from this directory:
 
     KICAD=/Applications/KiCad/KiCad.app/Contents
     python3 generate_footprint.py
@@ -52,9 +39,7 @@ KiCad files, then run from this directory:
     $KICAD/Frameworks/Python.framework/Versions/Current/bin/python3 route.py
     $KICAD/MacOS/kicad-cli pcb drc --schematic-parity -o drc.rpt rhb_poof_controller.kicad_pcb
 
-`route.py` needs Java 17+ and `~/tools/freerouting-1.9.jar`.  It autoroutes
-with freerouting and fills the ground pour.
+`route.py` needs Java 17+ and `~/tools/freerouting-1.9.jar`.
 
-DRC reports no clearance or connection errors.  It does list two expected
-warnings: the mounting holes are not in the schematic, and the module's
-silkscreen outline runs past the left edge because the module overhangs it.
+DRC has two expected warnings: the mounting holes aren't in the schematic,
+and U2's outline runs past the board edge.

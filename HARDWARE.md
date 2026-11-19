@@ -1,43 +1,23 @@
 Poof Controller Hardware
 ========================
 
-The poof button panel is a Waveshare ESP32-S3-POE-ETH, wired to the rig and
-powered over PoE, with one optocoupler for the 12V button and a four digit
-HT16K33 display.
-
 ![Poof controller circuit](circuit.svg)
 
-[kicad/](kicad/README.md) has a two layer carrier board for it.
+[kicad/](kicad/README.md) has the carrier board.
 
 Board
 -----
 
-Use a **Waveshare ESP32-S3-POE-ETH**: the ESP32-S3-ETH with Waveshare's PoE
-module.  It is the board rhb-water-heater runs on:
+A **Waveshare ESP32-S3-POE-ETH**, the same board as rhb-water-heater, so
+spares swap and its W5500 code is reused.  It needs an **802.3af** PoE switch
+or injector; runs can be up to 100 m.
 
-- One board type and one toolchain on the rig, and spares that swap.
-- Its W5500 handling, which took some getting right, is already written and
-  is reused here.
-- Ethernet instead of WiFi, and one cable for network and power.
-
-The PoE module needs an **802.3af** PoE switch or injector at the other end
-of the cable.  A run can be up to 100 m.
-
-The board is 72.8 x 21 mm.  Its 2 x 20 headers are Pico compatible: 2.54 mm
-pitch, rows 17.78 mm apart, power and ground pins where a Pico's are.  Pin
-numbers below are the physical pins, which Waveshare numbers like a Pico's,
-1 and 40 at the RJ45 end.
-
-Its two faces:
-
-- **Top**: the RJ45 jack, its magnetics, the ESP32-S3, and the PoE module,
-  which stacks on standoffs over the RJ45.
-- **Bottom**: the W5500, the TF card slot and the USB-C port.
-
-It mounts on the carrier top face up, on male headers soldered to point down
-into female headers on the carrier, with the RJ45 end over the carrier's
-edge.  The cable plugs into the end and the USB-C, needed to load code, stays
-reachable.
+- 72.8 x 21 mm, Pico compatible 2 x 20 headers.  Pin numbers below are
+  physical pins, 1 and 40 at the RJ45 end.
+- **Top**: RJ45, ESP32-S3, PoE module stacked over the RJ45.
+- **Bottom**: W5500, TF card slot, USB-C.
+- Mounts top face up on the carrier, RJ45 end over the edge so the cable and
+  USB-C stay reachable.
 
 System
 ------
@@ -58,11 +38,8 @@ System
            /temperature  <- rhb-water-heater
            /water_heater <- rhb-water-heater
 
-The 12V side shares no ground with the board.  That is the point of the
-optocoupler: the button's wiring runs out to the operator, and anything it
-picks up stays on the 12V side.  Feeding the board from the 12V supply would
-join the grounds and undo that.  With PoE nothing connects the board to the
-12V supply's ground.
+The 12V side shares no ground with the board, so noise picked up on the
+button's long wire stays there.  Don't power the board from the 12V supply.
 
 Wiring
 ------
@@ -72,44 +49,40 @@ Wiring
 | From | To |
 | --- | --- |
 | PoE switch or injector | RJ45, through the PoE module to VSYS |
-| 12V supply + | Fuse, 250 mA, then the button |
-| 12V supply - | PC817 pin 2 (cathode) |
-
-USB-C also powers the board, for loading code on the bench.  The board's own
-diode keeps PoE and USB from feeding each other.
+| USB-C, on the bench | VSYS, diode isolated from PoE |
+| 12V supply + | Inline 250 mA fuse, at the supply, then the button, then J1 `BTN` |
+| 12V supply - | J1 `12V-` |
 
 ### Button and optocoupler
 
-    12V + --- fuse --- button --- 2.2k ---+--- PC817 1 (anode)
-                       (N.O.)             |
-                                       1N4148
-                                     (cathode at pin 1)
-                                          |
-    12V - --------------------------------+--- PC817 2 (cathode)
+        off the carrier          |  on the carrier
+                                 |
+    12V + --- fuse --- button ---J1 BTN --- 2.2k ---+--- PC817 1 (anode)
+                       (N.O.)    |                  |
+                                 |               1N4148
+                                 |             (cathode at pin 1)
+                                 |                  |
+    12V - -----------------------J1 12V- -----------+--- PC817 2 (cathode)
 
     IO40 (pin 11) ----------------------------- PC817 4 (collector)
     GND  (pin 13) ----------------------------- PC817 3 (emitter)
 
+The fuse sits at the supply so it protects the whole wire run to the button.
+
 | Part | Value | Why |
 | --- | --- | --- |
-| Button | momentary, normally open, rated for 12V | Closed while held |
-| R1 | 2.2k, 1/4 W | (12V - 1.2V) / 2.2k = 4.9 mA through the LED, 5.4 mA at 13V.  The PC817 allows 50 mA |
-| D1 | 1N4148 | Reverse across the LED.  The PC817 LED tolerates only 6V reversed, and a generator surge can ring the 12V line |
-| U1 | PC817 | At 5 mA in and its worst case 50% CTR it sinks 2.5 mA; the pull-up needs well under 0.1 mA |
-| Pull-up | ESP32 internal on IO40 | Enabled by `keypad`.  Add an external 10k to 3V3 (pin 36) only if the opto sits far from the board |
+| Button | momentary, N.O., 12V | |
+| R1 | 2.2k, 1/4 W | 4.9 mA through the LED at 12V; the PC817 allows 50 mA |
+| D1 | 1N4148 | The PC817 LED takes only 6V reversed; generator surges can ring the 12V line |
+| U1 | PC817 | 2.5 mA out at worst case 50% CTR, plenty for the pull-up |
+| Pull-up | ESP32 internal on IO40 | Add 10k to 3V3 (pin 36) only if the opto is far from the board |
 
-Pressed, the transistor pulls IO40 low; released, the pull-up holds it high.
-`keypad` debounces 20 ms either way, so a spike shorter than that cannot
-poof.
-
-IO40 is free on this board.  Avoid IO35-37 (the PSRAM), IO0, IO3, IO45 and
-IO46 (boot strapping), IO9-14 (the W5500), IO4-7 (the TF card), IO19-20 (USB)
-and IO21 (the RGB LED).
+Avoid IO35-37 (PSRAM), IO0, IO3, IO45, IO46 (strapping), IO9-14 (W5500),
+IO4-7 (TF card), IO19-20 (USB) and IO21 (RGB LED).
 
 ### Display
 
-An Adafruit 0.56" four digit seven segment backpack (HT16K33), address `0x70`
-with no address jumpers bridged, on the same pins as rhb-water-heater's.
+Adafruit 0.56" four digit backpack (HT16K33), address `0x70`.
 
 | Backpack | ESP32-S3-ETH |
 | --- | --- |
@@ -119,20 +92,15 @@ with no address jumpers bridged, on the same pins as rhb-water-heater's.
 | `C` (SCL) | IO38, pin 14 |
 | `IO`, if present | 3V3, pin 36 |
 
-Run it from 3V3, not 5V.  The backpack's pull-ups on `D` and `C` go to its
-supply, and 5V on those lines would reach the ESP32's 3.3V-only pins.
-
-### Onboard
-
-The board's WS2812 RGB LED (IO21) lights red while the button is pressed.
+Use 3V3, not 5V: the backpack pulls `D` and `C` up to its supply.
 
 Parts
 -----
 
 | Qty | Part |
 | --- | --- |
-| 1 | Waveshare ESP32-S3-POE-ETH (the ESP32-S3-ETH with the PoE module) |
-| 1 | 2 x 20 male headers for it, and 2 x 20 female for the carrier |
+| 1 | Waveshare ESP32-S3-POE-ETH |
+| 1 | 2 x 20 male headers, and 2 x 20 female for the carrier |
 | 1 | Adafruit 0.56" four digit seven segment display with I2C backpack |
 | 1 | PC817 optocoupler |
 | 1 | 2.2k resistor, 1/4 W |

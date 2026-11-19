@@ -29,6 +29,10 @@
   <rect x="0" y="0" width="1300" height="640" fill="#ffffff"/>
   <text x="650" y="30" text-anchor="middle" class="title">RHB poof controller circuit</text>
 
+  <!-- The carrier board: everything inside is on the PCB in kicad/ -->
+  <rect x="418" y="95" width="672" height="425" rx="10" fill="none" stroke="#2471a3" stroke-width="1.5" stroke-dasharray="10 6"/>
+  <text x="430" y="114" class="note" fill="#2471a3">carrier board (kicad/)</text>
+
   <!-- Isolation barrier through the optocoupler -->
   <line x1="680" y1="110" x2="680" y2="300" stroke="#999" stroke-width="1.5" stroke-dasharray="6 5"/>
   <text x="670" y="125" text-anchor="end" class="note">12V side</text>
@@ -58,6 +62,7 @@
   <line x1="235" y1="185" x2="285" y2="185" class="sym" stroke-width="1.5"/>
   <text x="260" y="168" text-anchor="middle" class="ref">F1</text>
   <text x="260" y="212" text-anchor="middle" class="val">250 mA</text>
+  <text x="260" y="150" text-anchor="middle" class="note">inline, at the supply</text>
   <path d="M285,185 H325" class="wire v12"/>
 
   <!-- SW1 momentary N.O. pushbutton -->
@@ -69,13 +74,20 @@
   <text x="355" y="140" text-anchor="middle" class="ref">SW1</text>
   <text x="355" y="212" text-anchor="middle" class="val">poof button</text>
   <text x="355" y="228" text-anchor="middle" class="val">momentary N.O.</text>
-  <path d="M384,185 H415" class="wire v12"/>
+  <path d="M384,185 H448" class="wire v12"/>
+
+  <!-- J1 screw terminal, where the 12V wires enter the carrier -->
+  <rect x="418" y="178" width="14" height="14" class="part"/>
+  <rect x="418" y="228" width="14" height="14" class="part"/>
+  <text x="425" y="168" text-anchor="middle" class="ref">J1</text>
+  <text x="425" y="208" text-anchor="middle" class="pin">BTN</text>
+  <text x="425" y="258" text-anchor="middle" class="pin">12V−</text>
 
   <!-- R1 -->
-  <rect x="415" y="177" width="56" height="16" class="part"/>
-  <text x="443" y="168" text-anchor="middle" class="ref">R1</text>
-  <text x="443" y="212" text-anchor="middle" class="val">2.2k ¼W</text>
-  <path d="M471,185 H600" class="wire v12"/>
+  <rect x="448" y="177" width="56" height="16" class="part"/>
+  <text x="476" y="150" text-anchor="middle" class="ref">R1</text>
+  <text x="476" y="168" text-anchor="middle" class="val">2.2k ¼W</text>
+  <path d="M504,185 H600" class="wire v12"/>
   <circle cx="545" cy="185" r="4" class="dot"/>
 
   <!-- 12V − to opto cathode -->
@@ -134,7 +146,7 @@
 
   <!-- 5V USB into the Pico -->
   <path d="M200,570 H970 V460" class="wire v5"/>
-  <text x="980" y="490" class="val">RJ45, Ethernet + PoE</text>
+  <text x="960" y="490" text-anchor="end" class="val">RJ45, Ethernet + PoE</text>
 
   <!-- Display -->
   <rect x="1130" y="190" width="140" height="240" rx="6" class="box"/>
@@ -155,8 +167,15 @@
   <text x="1138" y="405" class="pin">−</text>
   <text x="1200" y="455" text-anchor="middle" class="note">run from 3V3, not 5V</text>
 
+  <!-- J2, the display connector on the carrier's edge -->
+  <rect x="1083" y="218" width="14" height="14" class="part"/>
+  <rect x="1083" y="248" width="14" height="14" class="part"/>
+  <rect x="1083" y="363" width="14" height="14" class="part"/>
+  <rect x="1083" y="393" width="14" height="14" class="part"/>
+  <text x="1090" y="208" text-anchor="middle" class="ref">J2</text>
+
   <!-- Legend -->
-  <g transform="translate(300,385)">
+  <g transform="translate(40,300)">
     <text x="0" y="0" class="lbl" font-weight="bold">Wires</text>
     <line x1="0" y1="20" x2="30" y2="20" class="wire v12"/><text x="40" y="25" class="val">12V +</text>
     <line x1="0" y1="42" x2="30" y2="42" class="wire gnd12"/><text x="40" y="47" class="val">ground (12V side and board side are separate)</text>
