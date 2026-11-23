@@ -59,7 +59,10 @@ items = [
     text("Datasheet", "https://docs.waveshare.com/ESP32-S3-ETH", 0, 0, "F.Fab", hide=True),
     rect("F.Fab", X0, Y0, X1, Y1, 0.1),
     rect("F.SilkS", X0 - 0.12, Y0 - 0.12, X1 + 0.12, Y1 + 0.12, 0.12),
+    # The courtyard leaves a window between the header rows: the module sits
+    # about 8.5 mm up on its sockets, so parts under 4.5 mm tall fit there.
     rect("F.CrtYd", X0 - 0.25, Y0 - 0.25, X1 + 0.25, Y1 + 0.25, 0.05),
+    rect("F.CrtYd", 1.3, 0.0, ROW - 1.3, 19 * PITCH, 0.05),
     # The RJ45 and USB-C end, which must sit at the carrier's edge
     fp_text("RJ45 / USB-C", ROW / 2, Y0 + 3.0, "F.SilkS"),
     fp_text("${REFERENCE}", ROW / 2, ROW, "F.Fab"),

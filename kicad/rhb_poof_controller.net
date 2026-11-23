@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/mauricio/Documents/development/projects/rhb-poof-controller/kicad/rhb_poof_controller.kicad_sch")
-		(date "2026-11-22T21:47:43")
+		(date "2026-11-22T23:46:32")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -85,7 +85,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "eca523ac-10f6-4550-90d1-fe0f16238028")
+			(tstamps "b467714e-1e47-40be-9a20-be837cea47dd")
 			(units
 				(unit
 					(name "A")
@@ -131,7 +131,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "ffde54aa-fdd9-4502-8c69-6d9dc23ea272")
+			(tstamps "9b7d2d28-4a6a-4591-acfe-70623257f474")
 			(units
 				(unit
 					(name "A")
@@ -177,7 +177,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "ed1e8a61-6079-434f-ae02-37c6189ea443")
+			(tstamps "27ab5f4f-1bb7-40a8-9524-c0aa27249419")
 			(units
 				(unit
 					(name "A")
@@ -229,7 +229,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "d710b05a-c413-46b1-b422-d92690663a6e")
+			(tstamps "66f4f0df-8e8d-4e6b-ad09-b99c2a5559a2")
 			(units
 				(unit
 					(name "A")
@@ -275,7 +275,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "c6aaade2-f914-4d49-a0e0-a52f9f246e9d")
+			(tstamps "bac6cd71-3360-45dd-b882-32f4f89e702c")
 			(units
 				(unit
 					(name "A")
@@ -327,7 +327,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "d28fcdb9-d0eb-45e5-bbc1-562c4a2fdf96")
+			(tstamps "1d0f7bcb-70c3-4e7e-9cd4-026f9890d35e")
 			(units
 				(unit
 					(name "A")
