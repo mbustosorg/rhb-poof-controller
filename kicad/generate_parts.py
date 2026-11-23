@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Write rhb.pretty/Waveshare_ESP32-S3-ETH.kicad_mod, the footprint for the
+Write rhb_poof_controller.pretty/Waveshare_ESP32-S3-ETH.kicad_mod, the footprint for the
 Waveshare ESP32-S3-ETH (and -POE-ETH) mounted top face up on 2 x 20 headers.
 
 From Waveshare's dimension drawing (ESP32-S3-ETH-details-size.png):
@@ -76,7 +76,7 @@ body = (f'(footprint "{NAME}"\n'
         f'\t(attr through_hole)\n'
         + "\n".join(items) + "\n)\n")
 
-out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "rhb.pretty")
+out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "rhb_poof_controller.pretty")
 os.makedirs(out_dir, exist_ok=True)
 path = os.path.join(out_dir, NAME + ".kicad_mod")
 with open(path, "w") as f:

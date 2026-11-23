@@ -35,7 +35,7 @@ All on UDP 8888, except the body display at `192.168.1.3:10002`.
 Hardware
 --------
 
-See [HARDWARE.md](HARDWARE.md).
+See [HARDWARE.md](HARDWARE.md) for the wiring and [kicad/](kicad/README.md) for the board.
 
 | Part | ESP32-S3-ETH pin |
 | --- | --- |

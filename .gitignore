@@ -6,7 +6,10 @@ venv
 kicad/*.dsn
 kicad/*.ses
 kicad/*.kicad_prl
-kicad/*-backups
+kicad/*-backups/
 kicad/~*.lck
 kicad/fp-info-cache
-kicad/logs
+kicad/erc.json
+kicad/drc.json
+kicad/_mcp_*
+kicad/logs/

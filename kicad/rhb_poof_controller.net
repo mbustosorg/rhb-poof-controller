@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/Users/mauricio/Documents/development/projects/rhb-poof-controller/kicad/rhb_poof_controller.kicad_sch")
-		(date "2026-11-17T10:49:56")
+		(date "2026-11-22T21:47:43")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -69,7 +69,7 @@
 				)
 			)
 			(libsource
-				(lib "rhb")
+				(lib "rhb_poof_controller")
 				(part "D")
 				(description "")
 			)
@@ -85,7 +85,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "8c076d6d-f644-4b5e-a98c-d95e0b8dbfab")
+			(tstamps "eca523ac-10f6-4550-90d1-fe0f16238028")
 			(units
 				(unit
 					(name "A")
@@ -115,7 +115,7 @@
 				)
 			)
 			(libsource
-				(lib "rhb")
+				(lib "rhb_poof_controller")
 				(part "Term2")
 				(description "")
 			)
@@ -131,7 +131,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "a475e6f7-39b1-462d-b675-8549c3203da5")
+			(tstamps "ffde54aa-fdd9-4502-8c69-6d9dc23ea272")
 			(units
 				(unit
 					(name "A")
@@ -161,7 +161,7 @@
 				)
 			)
 			(libsource
-				(lib "rhb")
+				(lib "rhb_poof_controller")
 				(part "Display4")
 				(description "")
 			)
@@ -177,7 +177,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "8607c5f0-1336-4c67-8428-160ac4abd2bb")
+			(tstamps "ed1e8a61-6079-434f-ae02-37c6189ea443")
 			(units
 				(unit
 					(name "A")
@@ -213,7 +213,7 @@
 				)
 			)
 			(libsource
-				(lib "rhb")
+				(lib "rhb_poof_controller")
 				(part "R")
 				(description "")
 			)
@@ -229,7 +229,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "926e886f-1513-45de-ba44-aaf0b125bc32")
+			(tstamps "d710b05a-c413-46b1-b422-d92690663a6e")
 			(units
 				(unit
 					(name "A")
@@ -259,7 +259,7 @@
 				)
 			)
 			(libsource
-				(lib "rhb")
+				(lib "rhb_poof_controller")
 				(part "PC817")
 				(description "")
 			)
@@ -275,7 +275,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "14c01261-9176-49a7-adb0-b8f36ff80f55")
+			(tstamps "c6aaade2-f914-4d49-a0e0-a52f9f246e9d")
 			(units
 				(unit
 					(name "A")
@@ -299,11 +299,11 @@
 		(comp
 			(ref "U2")
 			(value "Waveshare ESP32-S3-POE-ETH")
-			(footprint "rhb:Waveshare_ESP32-S3-ETH")
+			(footprint "rhb_poof_controller:Waveshare_ESP32-S3-ETH")
 			(datasheet "https://docs.waveshare.com/ESP32-S3-ETH")
 			(fields
 				(field
-					(name "Footprint") "rhb:Waveshare_ESP32-S3-ETH")
+					(name "Footprint") "rhb_poof_controller:Waveshare_ESP32-S3-ETH")
 				(field
 					(name "Datasheet") "https://docs.waveshare.com/ESP32-S3-ETH")
 				(field
@@ -311,7 +311,7 @@
 				)
 			)
 			(libsource
-				(lib "rhb")
+				(lib "rhb_poof_controller")
 				(part "ESP32-S3-ETH")
 				(description "")
 			)
@@ -327,7 +327,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "20d6251b-4db1-48d6-bd96-6763e35f3147")
+			(tstamps "d28fcdb9-d0eb-45e5-bbc1-562c4a2fdf96")
 			(units
 				(unit
 					(name "A")
@@ -461,7 +461,7 @@
 	(variants)
 	(libparts
 		(libpart
-			(lib "rhb")
+			(lib "rhb_poof_controller")
 			(part "D")
 			(fields
 				(field
@@ -493,7 +493,7 @@
 			)
 		)
 		(libpart
-			(lib "rhb")
+			(lib "rhb_poof_controller")
 			(part "Display4")
 			(fields
 				(field
@@ -534,7 +534,7 @@
 			)
 		)
 		(libpart
-			(lib "rhb")
+			(lib "rhb_poof_controller")
 			(part "ESP32-S3-ETH")
 			(fields
 				(field
@@ -755,7 +755,7 @@
 			)
 		)
 		(libpart
-			(lib "rhb")
+			(lib "rhb_poof_controller")
 			(part "PC817")
 			(fields
 				(field
@@ -796,7 +796,7 @@
 			)
 		)
 		(libpart
-			(lib "rhb")
+			(lib "rhb_poof_controller")
 			(part "R")
 			(fields
 				(field
@@ -828,7 +828,7 @@
 			)
 		)
 		(libpart
-			(lib "rhb")
+			(lib "rhb_poof_controller")
 			(part "Term2")
 			(fields
 				(field

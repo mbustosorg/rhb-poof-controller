@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate the KiCad schematic (.kicad_sch) and project (.kicad_pro) for the
-poof controller board.  HARDWARE.md and circuit.svg describe the circuit.
+poof controller board.  ../HARDWARE.md and circuit.svg describe the circuit.
 
   J1  2-way screw terminal: the button line, already through the inline fuse
       and the button, and the 12V supply's -
@@ -13,8 +13,7 @@ poof controller board.  HARDWARE.md and circuit.svg describe the circuit.
 
 The 12V side (BTN_12V, OPTO_A, GND_12V) shares nothing with the board side.
 
-Connectivity is label-based; re-run to regenerate, then export the netlist:
-  kicad-cli sch export netlist -o rhb_poof_controller.net rhb_poof_controller.kicad_sch
+Connectivity is label-based.  build.sh runs this and exports the netlist.
 """
 import json
 import os
@@ -170,7 +169,7 @@ def pin(n, name, t="passive"): return (str(n), name, t)
 
 # Waveshare ESP32-S3-ETH, pins numbered as on its silkscreen: 1 and 40 at the
 # RJ45 end, like a Pico's
-make_block("rhb:ESP32-S3-ETH",
+make_block("rhb_poof_controller:ESP32-S3-ETH",
     left=[
         pin(1,  "IO20", "bidirectional"), pin(2,  "IO19", "bidirectional"),
         pin(3,  "GND",  "passive"),       pin(4,  "IO48", "bidirectional"),
@@ -197,21 +196,21 @@ make_block("rhb:ESP32-S3-ETH",
     ],
     hw=10.16, value="Waveshare ESP32-S3-POE-ETH")
 
-make_block("rhb:PC817",
+make_block("rhb_poof_controller:PC817",
     left=[pin(1, "A"), pin(2, "K")],
     right=[pin(4, "C"), pin(3, "E")],
     hw=5.08, value="PC817")
 
-make_block("rhb:Term2",
+make_block("rhb_poof_controller:Term2",
     left=[], right=[pin(1, "BTN"), pin(2, "12V-")],
     hw=5.08, value="Button, 12V-", ref="J")
 
-make_block("rhb:Display4",
+make_block("rhb_poof_controller:Display4",
     left=[pin(1, "+"), pin(2, "-"), pin(3, "D"), pin(4, "C")],
     right=[], hw=5.08, value="HT16K33 display", ref="J")
 
-make_passive("rhb:R", "R", "R")
-make_passive("rhb:D", "D", "D")
+make_passive("rhb_poof_controller:R", "R", "R")
+make_passive("rhb_poof_controller:D", "D", "D")
 
 # --------------------------------------------------------------------------
 # schematic layout  (mm, Y down)
@@ -221,31 +220,31 @@ text("12V side: BTN_12V, OPTO_A, GND_12V share nothing with the board side", 20,
 text("Fuse (250 mA) and the poof button are off board, inline in the button wire", 20, 25, size=1.5)
 
 text("=== 12V BUTTON INPUT ===", 20, 45)
-place("rhb:Term2", "J1", "Button, 12V-",
+place("rhb_poof_controller:Term2", "J1", "Button, 12V-",
       "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
       30, 65,
       {"1": "BTN_12V", "2": "GND_12V"})
 
-place("rhb:R", "R1", "2.2k",
+place("rhb_poof_controller:R", "R1", "2.2k",
       "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
       60, 65,
       {"1": "BTN_12V", "2": "OPTO_A"})
 
-place("rhb:D", "D1", "1N4148",
+place("rhb_poof_controller:D", "D1", "1N4148",
       "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
       75, 65,
       {"1": "OPTO_A", "2": "GND_12V"})
 
 text("=== OPTOCOUPLER ===", 95, 45)
-place("rhb:PC817", "U1", "PC817",
+place("rhb_poof_controller:PC817", "U1", "PC817",
       "Package_DIP:DIP-4_W7.62mm",
       110, 65,
       {"1": "OPTO_A", "2": "GND_12V", "4": "POOF", "3": "GND"})
 
 text("=== ESP32-S3-POE-ETH ===", 150, 45)
 text("Wired, powered over PoE; IO40 uses the internal pull-up", 150, 49, size=1.3)
-place("rhb:ESP32-S3-ETH", "U2", "Waveshare ESP32-S3-POE-ETH",
-      "rhb:Waveshare_ESP32-S3-ETH",
+place("rhb_poof_controller:ESP32-S3-ETH", "U2", "Waveshare ESP32-S3-POE-ETH",
+      "rhb_poof_controller:Waveshare_ESP32-S3-ETH",
       185, 100,
       {
           "11": "POOF",
@@ -259,7 +258,7 @@ place("rhb:ESP32-S3-ETH", "U2", "Waveshare ESP32-S3-POE-ETH",
 
 text("=== DISPLAY ===", 240, 45)
 text("HT16K33 backpack at 0x70, run from 3V3", 240, 49, size=1.3)
-place("rhb:Display4", "J2", "HT16K33 display",
+place("rhb_poof_controller:Display4", "J2", "HT16K33 display",
       "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical",
       260, 65,
       {"1": "+3V3", "2": "GND", "3": "SDA", "4": "SCL"})

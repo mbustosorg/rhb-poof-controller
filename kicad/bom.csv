@@ -1,0 +1,8 @@
+Ref,Qty,Value,Description,Manufacturer,MPN,Notes
+U2,1,ESP32-S3-POE-ETH,"ESP32-S3 module with W5500 Ethernet and PoE, Pico-style 2x20 header",Waveshare,ESP32-S3-POE-ETH,
+,2,1x20 female,"Pin socket 1x20, 2.54 mm, through-hole (U2 sockets)",,,
+U1,1,PC817,"Optocoupler, DIP-4",Sharp,PC817,
+R1,1,2.2k,"Resistor, 1/4 W, axial",,,
+D1,1,1N4148,"Signal diode, DO-35",,,
+J1,1,Screw terminal 2 way,"Terminal block, 5.08 mm",Phoenix Contact,1715721,Button wire and 12V supply -
+J2,1,JST-XH 4 pin,"Header, 2.50 mm, vertical",JST,B4B-XH-A(LF)(SN),To the HT16K33 display

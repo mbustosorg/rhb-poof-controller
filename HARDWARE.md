@@ -1,7 +1,7 @@
 Poof Controller Hardware
 ========================
 
-![Poof controller circuit](circuit.svg)
+![Poof controller circuit](kicad/circuit.svg)
 
 [kicad/](kicad/README.md) has the carrier board.
 

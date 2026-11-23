@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 """
-Place the poof controller board.  Run with KiCad's bundled python after
-exporting the netlist from the schematic:
-
-  /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python3 generate_pcb.py
+Place the poof controller board.  Run with KiCad's Python; build.sh does.
 
 Reads:  rhb_poof_controller.net
-Writes: rhb_poof_controller.kicad_pcb (unrouted; see README.md for routing)
+Writes: rhb_poof_controller.kicad_pcb, unrouted; route.py routes it
 
 Layout, 2 layers, about 74 x 62 mm:
   - The Waveshare ESP32-S3-POE-ETH runs across the top, socketed top face
@@ -25,12 +22,13 @@ import os
 import re
 import sys
 
-NET    = "rhb_poof_controller.net"
-PCB    = "rhb_poof_controller.kicad_pcb"
-PRO    = "rhb_poof_controller.kicad_pro"
+HERE   = os.path.dirname(os.path.abspath(__file__))
+NET    = os.path.join(HERE, "rhb_poof_controller.net")
+PCB    = os.path.join(HERE, "rhb_poof_controller.kicad_pcb")
+PRO    = os.path.join(HERE, "rhb_poof_controller.kicad_pro")
 FPROOT = "/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints"
-# This board's own footprints, the "rhb" library in fp-lib-table
-LOCAL_LIBS = {"rhb": os.path.join(os.path.dirname(os.path.abspath(__file__)), "rhb.pretty")}
+# This board's own footprints, the project library in fp-lib-table
+LOCAL_LIBS = {"rhb_poof_controller": os.path.join(HERE, "rhb_poof_controller.pretty")}
 
 try:
     import pcbnew
@@ -160,7 +158,9 @@ silk("RHB POOF", 150.0, 101.0, 1.5)
 silk("+  -  D  C", 169.75, 138.0, 1.0)
 silk("BTN", 130.0, 146.6, 1.0)
 silk("12V-", 124.9, 146.6, 1.0)
-silk("12V SIDE", 146.0, 155.5, 1.0)
+silk("12V SIDE", 146.0, 155.0, 1.0)
+# The button's fuse is inline at the 12V supply, not on this board
+silk("FUSE AT SUPPLY", 146.0, 156.8, 1.0)
 
 # ── board outline ────────────────────────────────────────────────────────────
 rr = pcbnew.PCB_SHAPE(board)
