@@ -40,6 +40,7 @@ try:
 except Exception as _e:
     print("warning: wx init:", _e)
 
+YEAR = 2026  # silkscreen copyright
 MM = pcbnew.FromMM
 def V(x, y): return pcbnew.VECTOR2I(MM(x), MM(y))
 
@@ -158,6 +159,7 @@ def silk(s, x, y, size=1.0, rot=0):
     board.Add(t)
 
 silk("RHB POOF", 150.0, 101.0, 1.5)
+silk(f"m@bustos.org (c) {YEAR}", 173.5, 101.0, 0.8)
 silk("+  -  D  C", 163.75, 137.6, 1.0)
 silk("12V-  BTN", 127.46, 128.3, 1.0)
 silk("12V SIDE", 145.0, 132.5, 1.0)
